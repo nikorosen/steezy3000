@@ -9,12 +9,6 @@ const fs = require('fs');
 const CronJob = require('cron').CronJob;
 const BattleScheduler = require('./BattleScheduler.js');
 
-const sampleList = [
-    'https://www.youtube.com/watch?v=_fL-ZigeB4o',
-    'https://www.youtube.com/watch?v=1W9NUu9s27o',
-    'https://www.youtube.com/watch?v=XaC7braEJ1w'
-]
-
 const prefix = '!';
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -23,61 +17,17 @@ const battleScheduler = new BattleScheduler();
 
 function initSchedule(client) {
 
-    var announcement = new Discord.MessageEmbed()
-        .setColor(config.embed_color)
-        .setTitle('🥁 Weekly Beat Battle 🥁')// + battleNum)
-        .setDescription(' <@&' + config.everyone + '> IT\'S TIME FOR ANOTHER WEEKLY BEAT BATTLE 🔥\n\n\
-        Brandish ya DAW, invite a friend, we bout to fl!p')
-        .addFields(
-            { name: 'HOW TO SUBMIT', value: 'Type \'!submit [soundcloud-url]\' \n Your URL must follow the standard format: https://soundcloud.com/nikorosy/example-track' },
-            {
-                name: 'RULES', value:
-                    '1️⃣   Use only the provided sample\n\
-        2️⃣   You may use your own drums/instruments but the sample must be prominent\
-        3️⃣   If you submit, you MUST vote\n\
-        4️⃣   Bring the heat!!!'},
-            { name: 'THIS WEEK\'S SAMPLE', value: sampleList[Math.floor(Math.random() * sampleList.length)] },
-            { name: 'BATTLE START', value: 'Friday 12:00PM PST', inline: true },
-            { name: 'BATTLE END', value: 'Saturday 11:59PM PST', inline: true },
-            { name: 'Follow us on IG', value: 'https://www.instagram.com/steezyproducers' },
-        )
-        .setTimestamp()
-        .setFooter('👁');
-
     log = "Battle started";
     battleScheduler.startBattleJob(client, '0 12 * * 5', log, announcement);
-    //battleScheduler.startBattleJob(client, '* * * * *', log, announcement);
-
-    announcement = new Discord.MessageEmbed()
-        .setColor(config.embed_color)
-        .setTitle('🥁 Weekly Beat Battle 🥁')
-        .setDescription(' <@&' + config.everyone + '> VOTING BEGINS NOW\n\n')
-        .addFields(
-            { name: 'HOW TO VOTE', value: 'Type !vote @user' },
-            { name: 'VOTE START', value: 'Saturday 11:59PM PST', inline: true },
-            { name: 'VOTE END', value: 'Sunday 8:00PM PST', inline: true },
-            { name: 'INSTAGRAM', value: 'https://www.instagram.com/steezyproducers' },
-        )
-
-        .setFooter('👁');
+    //battleScheduler.startBattleJob(client, '* * * * *', log)//, announcement);
 
     log = "Voting started";
-    battleScheduler.startVoteJob(client, '59 23 * * 6', log, announcement);
-    //battleScheduler.startVoteJob(client, '7 * * * *', log, announcement);
-
-    announcement = new Discord.MessageEmbed()
-        .setColor(config.embed_color)
-        .setTitle('🥁 Weekly Beat Battle 🥁')
-        .addFields(
-            //{ name: 'WINNING BEAT', value: '[url]', inline: true },
-            { name: 'INSTAGRAM', value: 'https://www.instagram.com/steezyproducers' },
-        )
-        .setTimestamp()
-        .setFooter('👁');
+    battleScheduler.startVoteJob(client, '59 23 * * 6', log)//, announcement);
+    //battleScheduler.startVoteJob(client, '* * * * *', log)//, announcement);
 
     log = "Battle ended";
-    battleScheduler.endBattleJob(client, '0 20 * * 0', log, announcement);
-    //battleScheduler.endBattleJob(client, '* * * * *', log, announcement);
+    battleScheduler.endBattleJob(client, '0 20 * * 0', log)//, announcement);
+    //battleScheduler.endBattleJob(client, '* * * * *', log)//, announcement);
 };
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
