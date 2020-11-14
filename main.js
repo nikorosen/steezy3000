@@ -18,7 +18,7 @@ const battleScheduler = new BattleScheduler();
 function initSchedule(client) {
 
     log = "Battle started";
-    battleScheduler.startBattleJob(client, '0 12 * * 5', log, announcement);
+    battleScheduler.startBattleJob(client, '0 12 * * 5', log)//, announcement);
     //battleScheduler.startBattleJob(client, '* * * * *', log)//, announcement);
 
     log = "Voting started";
