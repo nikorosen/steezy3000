@@ -21,6 +21,7 @@ for (const file of commandFiles) {
 }
 
 const battleScheduler = new BattleScheduler();
+battleScheduler.client = client;
 
 // updates users-list.txt
 function writeUsers(battleScheduler) {
@@ -62,28 +63,25 @@ function readUsers(battleScheduler) {
             }
         });
     }
-
 }
 
-function initSchedule(client) {
+function initSchedule() {
 
-    log = "Battle started";
-    battleScheduler.startBattleJob(client, '0 12 * * 5', log)//, announcement);
-    //battleScheduler.startBattleJob(client, '* * * * *', log)//, announcement);
+    //var startCron = '* * * * *';
+    //var voteCron = '* * * * *';
+    //var endCron = '* * * * *';
 
-    log = "Voting started";
-    battleScheduler.startVoteJob(client, '59 23 * * 6', log)//, announcement);
-    //battleScheduler.startVoteJob(client, '* * * * *', log)//, announcement);
+    var startCron = '0 12 * * 5';
+    var voteCron = '59 23 * * 6';
+    var endCron = '0 20 * * 0';
 
-    log = "Battle ended";
-    battleScheduler.endBattleJob(client, '0 20 * * 0', log)//, announcement);
-    //battleScheduler.endBattleJob(client, '* * * * *', log)//, announcement);
+    battleScheduler.startJobs(startCron, voteCron, endCron);
 }
 
 // bot status
 client.once('ready', () => {
     console.log('STEEZY3000 is online');
-    initSchedule(client);
+    initSchedule();
     console.log('Cron jobs started');
 });
 
@@ -105,8 +103,7 @@ client.on('message', message => {
 
         // add user to userlist
         if (args.length != 0 && args.length < 2) {
-            client.commands.get('submit')
-                .execute(client, message, battleScheduler, args);
+            client.commands.get('submit').execute(client, message, battleScheduler, args);
             writeUsers(battleScheduler);
         }
         // err
@@ -121,8 +118,7 @@ client.on('message', message => {
 
         // add vote for a user
         if (args.length != 0 && args.length < 2) {
-            client.commands.get('vote')
-                .execute(client, message, battleScheduler, args);
+            client.commands.get('vote').execute(client, message, battleScheduler, args);
             writeUsers(battleScheduler);
         }
 
@@ -136,6 +132,16 @@ client.on('message', message => {
     else if (message.member.roles.cache.find(r => r.name === "Big Chief")) {
 
         readUsers(battleScheduler);
+
+        if (command === 'start-battle'){
+            battleScheduler.startBattle();
+        }
+        else if (command === 'start-vote'){
+            battleScheduler.startVote();
+        }
+        else if (command === 'end-battle'){
+            battleScheduler.endBattle();
+        }
 
         if (command === 'open-vote') {
             battleScheduler.isSubmitOpen = false;
