@@ -69,15 +69,15 @@ function initSchedule(client) {
 
     log = "Battle started";
     battleScheduler.startBattleJob(client, '0 12 * * 5', log)//, announcement);
-    battleScheduler.startBattleJob(client, '* * * * *', log)//, announcement);
+    //battleScheduler.startBattleJob(client, '* * * * *', log)//, announcement);
 
     log = "Voting started";
     battleScheduler.startVoteJob(client, '59 23 * * 6', log)//, announcement);
-    battleScheduler.startVoteJob(client, '* * * * *', log)//, announcement);
+    //battleScheduler.startVoteJob(client, '* * * * *', log)//, announcement);
 
     log = "Battle ended";
     battleScheduler.endBattleJob(client, '0 20 * * 0', log)//, announcement);
-    battleScheduler.endBattleJob(client, '* * * * *', log)//, announcement);
+    //battleScheduler.endBattleJob(client, '* * * * *', log)//, announcement);
 }
 
 // bot status
