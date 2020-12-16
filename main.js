@@ -81,8 +81,8 @@ function initSchedule() {
 // bot status
 client.once('ready', () => {
     console.log('STEEZY3000 is online');
-    initSchedule();
-    console.log('Cron jobs started');
+    //initSchedule();
+    //console.log('Cron jobs started');
 });
 
 client.on('message', message => {
