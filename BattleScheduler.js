@@ -20,14 +20,30 @@ function getWinner(dict) {
     return index;
 }
 
+
+
 module.exports = class BattleScheduler {
 
     constructor() {
         this.isSubmitOpen = false;
         this.isVoteOpen = false;
-        this.userList = {}
-        this.userHasVoted = []
+        this.userList = {};
+        //this.userList = JSON.parse(fs.readFileSync('userlist.json'));
+        this.userHasVoted = [];
         this.sample;
+    }
+
+    startBattle() {
+
+    } 
+    
+    startVote() {
+    
+    
+    }
+    
+    endBattle() {
+        
     }
 
     startBattleJob(client, cronTab, log) { //, announcement) {//, announceChannel, submitChannel) {
@@ -130,6 +146,9 @@ module.exports = class BattleScheduler {
             client.channels.cache.get(config.announce_channel_id).send(announcement);
             
             that.isVoteOpen = false;
+
+            this.userList = {};
+            fs.writeFileSync(config.user_list_path, '', function(){console.log('done')});
             
             console.log(log);
         }, null, true, config.timezone);
